@@ -13,6 +13,7 @@ public class LoginPage {
 
     static final String messOk = "Операция одобрена Банком.";
     static final String messErr = "Ошибка! Банк отказал в проведении операции.";
+    static final String clearCode = "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
 
     private SelenideElement paymentButton = $$(".button_size_m").first();
     private SelenideElement creditButton = $$(".button_view_extra").first();
@@ -25,6 +26,11 @@ public class LoginPage {
     private SelenideElement cvsField = $$("[tabindex='-1'] input").get(3);  // $("[placeHolder='999'");
     private SelenideElement errorMessage = $$(".notification__content").last();
     private SelenideElement successMessage = $(".notification__content");
+    private SelenideElement errorField = $(".input__sub");
+    //Неверный формат
+    //Неверно указан срок действия карты
+    //Истёк срок действия карты
+    //Поле обязательно для заполнения
 
 
     public String getMessage(SelenideElement message) {
@@ -33,35 +39,54 @@ public class LoginPage {
         return text;
     }
 
-        //ввод данных в форму и проверка сообщения об успешной регистрации
-        //при параметре expected = true  или ошибке при expected = false
-    public String validLogin(Boolean credit, String cardNum, String month
-            , String year, String name, String cvs, boolean expected) {
+    public String isErrorMessage() {
+        String actualMessage = getMessage(errorMessage);
+        String expectedMessage = messErr;
+        assertEquals(expectedMessage, actualMessage);
+        notSuccessMessage();
+        return actualMessage;
+    }
+
+    public void notErrorMessage() {
+        errorMessage.shouldNotBe(visible);
+    }
+
+    public String isSuccessMessage() {
+        String actualMessage = getMessage(successMessage);
+        String expectedMessage = messOk;
+        assertEquals(expectedMessage, actualMessage);
+        notErrorMessage();
+        return actualMessage;
+    }
+
+    public void notSuccessMessage() {
+        successMessage.shouldNotBe(visible);
+    }
+
+    public String isFieldError(String expectedMessage) {
+        String actualMessage = getMessage(errorField);
+        assertEquals(expectedMessage, actualMessage);
+        return actualMessage;
+    }
+
+    public void notFieldErrors() {
+        errorField.shouldNotBe(visible);
+    }
+
+    public void inputData(Boolean credit, String cardNum, String month
+            , String year, String name, String cvs) {
         if (credit) {
             creditButton.click();
         } else {
             paymentButton.click();
         }
         nextButton.shouldBe(visible);
-        cardField.setValue(cardNum);
-        monthField.setValue(month);
-        yearField.setValue(year);
-        nameField.setValue(name);
-        cvsField.setValue(cvs);
+        cardField.setValue(clearCode + cardNum);
+        monthField.setValue(clearCode + month);
+        yearField.setValue(clearCode + year);
+        nameField.setValue(clearCode + name);
+        cvsField.setValue(clearCode + cvs);
         nextButton.click();
-
-        String actualMessage;
-        String expectedMessage;
-        if (expected) {
-            actualMessage = getMessage(successMessage);
-            expectedMessage = messOk;
-        } else {
-            actualMessage = getMessage(errorMessage);
-            expectedMessage = messErr;
-        }
-       System.out.println(actualMessage);
-        assertEquals(expectedMessage, actualMessage);
-        return actualMessage;
     }
 
 }

@@ -1,6 +1,5 @@
 package ru.netology.test;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.manager.DbManager;
@@ -24,51 +23,55 @@ public class FunctionalTest {
 
     @Test
     void shouldErrorCardPayment() {
-        String message = loginPage.validLogin(false, cardNum3
-                , "02", "22", "Вася", "456", false);
-        DbManager.checkRecordCount("order_entity",0);
-        DbManager.checkRecordCount("payment_entity",0);
-        DbManager.checkRecordCount("credit_request_entity",0);
+        loginPage.inputData(false, cardNum3
+                , "02", "22", "Вася", "456");
+        loginPage.isErrorMessage();
+        DbManager.checkRecordCount("order_entity", 0);
+        DbManager.checkRecordCount("payment_entity", 0);
+        DbManager.checkRecordCount("credit_request_entity", 0);
     }
 
     @Test
     void shouldErrorCardCredit() {
-        String message = loginPage.validLogin(true, cardNum3
-                , "02", "22", "Вася", "456", false);
-        DbManager.checkRecordCount("order_entity",0);
-        DbManager.checkRecordCount("payment_entity",0);
-        DbManager.checkRecordCount("credit_request_entity",0);
+        loginPage.inputData(true, cardNum3
+                , "02", "22", "Вася", "456");
+        loginPage.isErrorMessage();
+        DbManager.checkRecordCount("order_entity", 0);
+        DbManager.checkRecordCount("payment_entity", 0);
+        DbManager.checkRecordCount("credit_request_entity", 0);
     }
 
     @Test
     void shouldHappyPathPayment() {
-        String message = loginPage.validLogin(false, cardNum1
-                , "02", "22", "Вася", "456", true);
-
-        DbManager.checkRecordCount("order_entity",1);
-        DbManager.checkRecordCount("payment_entity",1);
-        DbManager.checkRecordCount("credit_request_entity",0);
+        loginPage.inputData(false, cardNum1
+                , "02", "22", "Вася", "456");
+        loginPage.isSuccessMessage();
+        DbManager.checkRecordCount("order_entity", 1);
+        DbManager.checkRecordCount("payment_entity", 1);
+        DbManager.checkRecordCount("credit_request_entity", 0);
         assertEquals(DbManager.getPayment().getTransaction_id()
                 , DbManager.getOrder().getPayment_id());
-        assertEquals("APPROVED",DbManager.getPayment().getStatus());
+        assertEquals("APPROVED", DbManager.getPayment().getStatus());
     }
 
     @Test
     void shouldHappyPathCredit() {
-        String message = loginPage.validLogin(true, cardNum1
-                , "02", "22", "Вася", "456", true);
-        DbManager.checkRecordCount("order_entity",1);
-        DbManager.checkRecordCount("credit_request_entity",1);
-        DbManager.checkRecordCount("payment_entity",0);
+        loginPage.inputData(true, cardNum1
+                , "02", "22", "Вася", "456");
+        loginPage.isSuccessMessage();
+        DbManager.checkRecordCount("order_entity", 1);
+        DbManager.checkRecordCount("credit_request_entity", 1);
+        DbManager.checkRecordCount("payment_entity", 0);
         assertEquals(DbManager.getCredit().getBank_id()
                 , DbManager.getOrder().getPayment_id());
-        assertEquals("APPROVED",DbManager.getCredit().getStatus());
+        assertEquals("APPROVED", DbManager.getCredit().getStatus());
     }
 
     @Test
     void shouldDeclinedPayment() {
-        String message = loginPage.validLogin(false, cardNum2
-                , "02", "22", "Вася", "456", false);
+        loginPage.inputData(false, cardNum2
+                , "02", "22", "Вася", "456");
+        loginPage.isErrorMessage();
         DbManager.checkRecordCount("order_entity", 0);
         DbManager.checkRecordCount("payment_entity", 0);
         DbManager.checkRecordCount("credit_request_entity", 0);
@@ -76,8 +79,9 @@ public class FunctionalTest {
 
     @Test
     void shouldDeclinedCredit() {
-        String message = loginPage.validLogin(true, cardNum2
-                , "02", "22", "Вася", "456", false);
+        loginPage.inputData(true, cardNum2
+                , "02", "22", "Вася", "456");
+        loginPage.isErrorMessage();
         DbManager.checkRecordCount("order_entity", 0);
         DbManager.checkRecordCount("payment_entity", 0);
         DbManager.checkRecordCount("credit_request_entity", 0);
