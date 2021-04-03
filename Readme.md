@@ -7,17 +7,13 @@
 
   **Последовательность запуска тестов**
 1. Открыть проект в IDEA.
-2.  В окне терминала запустить контейнер MySQL .
-   
-    ' docker-compose up -d '
-3. В окне терминала IDEA запустить эмулятор сервера:
-   
-   ' npm start app.js --port=9999 '
-4. В новом окне терминала запустить файл SUT:
-   
-   ' java -jar aqa-shop.jar --spring.credit-gate.url=http://localhost:9999/credit --spring.payment-gate.url=http://localhost:99
-   99/payment --spring.datasource.url=jdbc:mysql://localhost:3306/app --spring.datasource.username=app --spring.datasource.password=pass '
- 
+2.  В окне терминала запустить контейнер MySQL.
+    
+     ' docker-compose up -d '
+3. Скопировать папку gate-simulator в другое место на компьютере и перейти в нее.
+4. Запустить файл server_start.bat
+5. Запустить файл SUT_start.bat
+
   Далее возможно как автоматическое, так и ручное тестирование в браузере (localhost:8080).
   
 

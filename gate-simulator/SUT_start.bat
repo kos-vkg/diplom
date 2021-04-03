@@ -1,0 +1,1 @@
+java -jar aqa-shop.jar --spring.credit-gate.url=http://localhost:9999/credit --spring.payment-gate.url=http://localhost:9999/payment --spring.datasource.url=jdbc:mysql://localhost:3306/app --spring.datasource.username=app --spring.datasource.password=pass
