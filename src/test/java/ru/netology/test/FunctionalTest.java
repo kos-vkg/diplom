@@ -1,9 +1,13 @@
 package ru.netology.test;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.manager.DbManager;
 import ru.netology.page.LoginPage;
+import io.qameta.allure.selenide.AllureSelenide;
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,6 +18,16 @@ public class FunctionalTest {
     static final String cardNum2 = "4444 4444 4444 4442";
     static final String cardNum3 = "4444 4444 4444 4443";
     LoginPage loginPage = new LoginPage();
+
+    @BeforeAll
+    static void  setUpAll(){
+        SelenideLogger.addListener("allure",new AllureSelenide());
+    }
+    @AfterAll
+    static void tearDownAll() {
+        SelenideLogger.removeListener("allure");
+    }
+
 
     @BeforeEach
     void setUp() {
