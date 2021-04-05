@@ -12,7 +12,7 @@
      ' docker-compose up -d '
 3. Скопировать папку gate-simulator в другое место на компьютере и перейти в нее.
 4. Запустить файл server_start.bat
-5. Запустить файл SUT_start.bat
+5. Запустить файл SUT_start.bat (для MySQL) или SUT_postgresql_start.bat 
 
   Далее возможно как автоматическое, так и ручное тестирование в браузере (localhost:8080).
   

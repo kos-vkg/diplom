@@ -1,6 +1,5 @@
 package ru.netology.manager;
 
-import lombok.val;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
@@ -16,13 +15,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public final class DbManager {
 
+    //static final String URLDB = "jdbc:mysql://localhost:3306/app";
+    static final String URLDB = "jdbc:postgresql://localhost:5432/app";
+
      // возвращает запись из таблицы
     public static Credit getCredit() {
         String usersSQL = "SELECT * FROM credit_request_entity;";
         var runner = new QueryRunner();
         try (
                 Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
+                        URLDB, "app", "pass"
                 )
         ) {
             Credit record = runner.query(conn, usersSQL, new BeanHandler<>(Credit.class));
@@ -38,7 +40,7 @@ public final class DbManager {
         var runner = new QueryRunner();
         try (
                 Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
+                        URLDB, "app", "pass"
                 )
         ) {
             Payment record = runner.query(conn, usersSQL, new BeanHandler<>(Payment.class));
@@ -54,7 +56,7 @@ public final class DbManager {
         var runner = new QueryRunner();
         try (
                 Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
+                        URLDB, "app", "pass"
                 )
         ) {
             Order record = runner.query(conn, usersSQL, new BeanHandler<>(Order.class));
@@ -71,7 +73,7 @@ public final class DbManager {
         var runner = new QueryRunner();
         try (
                 Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
+                        URLDB, "app", "pass"
                 )
         ) {
        assertEquals(expectedRecordCount, (long) runner.query(conn, countSQL, new ScalarHandler<>())
@@ -86,12 +88,12 @@ public final class DbManager {
       // очищает все таблицы
     public static void clearTables() {
         var runner = new QueryRunner();
-        String delOrderSQL = "DELETE FROM order_entity;";
-        String delPaymentSQL = "DELETE FROM payment_entity;";
-        String delCreditSQL = "DELETE FROM credit_request_entity;";
+        String delOrderSQL = "DELETE FROM app.public.order_entity;";
+        String delPaymentSQL = "DELETE FROM app.public.payment_entity;";
+        String delCreditSQL = "DELETE FROM app.public.credit_request_entity;";
         try (
                 Connection conn = DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/app", "app", "pass"
+                        URLDB, "app", "pass"
                 )
         ) {
             // очистка таблиц
