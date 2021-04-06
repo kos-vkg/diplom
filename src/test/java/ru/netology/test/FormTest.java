@@ -15,22 +15,23 @@ import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FormTest {
-    static final String cardNum1 = "4444 4444 4444 4441";
+    static final String CARD_NUM_1 = "4444 4444 4444 4441";
     LoginPage loginPage = new LoginPage();
     String year = Integer.toString(LocalDate.now().getYear() - 2000 + 2);
 
-         //введение валидных данных и контроль результата
-     private void dataCorrection(){
-         loginPage.inputData(true, cardNum1
-                 , "02", year, "Вася", "456");
-         loginPage.notFieldErrors();
-         loginPage.isSuccessMessage();
-     }
+    //введение валидных данных и контроль результата
+    private void dataCorrection() {
+        loginPage.inputData(true, CARD_NUM_1
+                , "02", year, "Вася", "456");
+        loginPage.notFieldErrors();
+        loginPage.isSuccessMessage();
+    }
 
     @BeforeAll
-    static void  setUpAll(){
-        SelenideLogger.addListener("allure",new AllureSelenide());
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
     }
+
     @AfterAll
     static void tearDownAll() {
         SelenideLogger.removeListener("allure");
@@ -45,7 +46,7 @@ public class FormTest {
     @Test
     void shouldMaxYear() {
         String maxYear = Integer.toString(LocalDate.now().getYear() - 2000 + 5);
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "12", maxYear, "Вася", "999");
         loginPage.notFieldErrors();
         loginPage.isSuccessMessage();
@@ -53,7 +54,7 @@ public class FormTest {
 
     @Test
     void shouldCVS999() {
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "12", year, "Вася", "999");
         loginPage.notFieldErrors();
         loginPage.isSuccessMessage();
@@ -61,7 +62,7 @@ public class FormTest {
 
     @Test
     void shouldCVS000() {
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "12", year, "Вася", "000");
         loginPage.notFieldErrors();
         loginPage.isSuccessMessage();
@@ -69,7 +70,7 @@ public class FormTest {
 
     @Test
     void shouldMonth01() {
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "01", year, "Вася", "456");
         loginPage.notFieldErrors();
         loginPage.isSuccessMessage();
@@ -77,7 +78,7 @@ public class FormTest {
 
     @Test
     void shouldMonth12() {
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "12", year, "Вася", "456");
         loginPage.notFieldErrors();
         loginPage.isSuccessMessage();
@@ -85,7 +86,7 @@ public class FormTest {
 
     @Test
     void shouldMonth13() {
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "13", year, "Вася", "456");
         loginPage.isFieldError("Неверно указан срок действия карты");
         dataCorrection(); //исправление ошибочных данных
@@ -93,7 +94,7 @@ public class FormTest {
 
     @Test
     void shouldMonth00() {
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "00", year, "Вася", "456");
         loginPage.isFieldError("Неверный формат");
         dataCorrection(); //исправление ошибочных данных
@@ -101,7 +102,7 @@ public class FormTest {
 
     @Test
     void shouldMonth0() {
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "0", year, "Вася", "456");
         loginPage.isFieldError("Неверный формат");
         dataCorrection(); //исправление ошибочных данных
@@ -109,7 +110,7 @@ public class FormTest {
 
     @Test
     void shouldIncorrectCVS() {
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "02", year, "Вася", "12");
         loginPage.isFieldError("Неверный формат");
         dataCorrection(); //исправление ошибочных данных
@@ -124,32 +125,32 @@ public class FormTest {
     }
 
     @Test
-     void  shouldEmptyCard(){
-         loginPage.inputData(true, ""
-                 , "02", year, "Вася", "123");
-         loginPage.isFieldError("Неверный формат");
-         dataCorrection(); //исправление ошибочных данных
-     }
+    void shouldEmptyCard() {
+        loginPage.inputData(true, ""
+                , "02", year, "Вася", "123");
+        loginPage.isFieldError("Неверный формат");
+        dataCorrection(); //исправление ошибочных данных
+    }
 
     @Test
-    void shouldEmptyMonth(){
-        loginPage.inputData(true, cardNum1
+    void shouldEmptyMonth() {
+        loginPage.inputData(true, CARD_NUM_1
                 , "", year, "Вася", "123");
         loginPage.isFieldError("Неверный формат");
         dataCorrection(); //исправление ошибочных данных
     }
 
     @Test
-    void shouldEmptyYear(){
-        loginPage.inputData(true, cardNum1
+    void shouldEmptyYear() {
+        loginPage.inputData(true, CARD_NUM_1
                 , "02", "", "Вася", "123");
         loginPage.isFieldError("Неверный формат");
         dataCorrection(); //исправление ошибочных данных
     }
 
     @Test
-    void shouldEmptyCVS(){
-        loginPage.inputData(true, cardNum1
+    void shouldEmptyCVS() {
+        loginPage.inputData(true, CARD_NUM_1
                 , "02", year, "Вася", "");
         loginPage.isFieldError("Поле обязательно для заполнения");
         dataCorrection(); //исправление ошибочных данных

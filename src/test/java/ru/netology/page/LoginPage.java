@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
 
+import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -11,9 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginPage {
 
-    static final String messOk = "Операция одобрена Банком.";
-    static final String messErr = "Ошибка! Банк отказал в проведении операции.";
-    static final String clearCode = "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
+    static final String MESS_OK = "Операция одобрена Банком.";
+    static final String MESS_ERR = "Ошибка! Банк отказал в проведении операции.";
+    static final String CLEAR_CODE = "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
 
     private SelenideElement paymentButton = $$(".button_size_m").first();
     private SelenideElement creditButton = $$(".button_view_extra").first();
@@ -24,14 +25,9 @@ public class LoginPage {
     private SelenideElement yearField = $$("[tabindex='-1'] input").get(1);  // $("[placeHolder='22'");
     private SelenideElement nameField = $$("[tabindex='-1'] input").get(2);
     private SelenideElement cvsField = $$("[tabindex='-1'] input").get(3);  // $("[placeHolder='999'");
-    private SelenideElement errorMessage = $$(".notification__content").last();
-    private SelenideElement successMessage = $(".notification__content");
+    private SelenideElement errorMessage = $(withText(MESS_ERR));
+    private SelenideElement successMessage = $(withText(MESS_OK));
     private SelenideElement errorField = $(".input__sub");
-    //Неверный формат
-    //Неверно указан срок действия карты
-    //Истёк срок действия карты
-    //Поле обязательно для заполнения
-
 
     public String getMessage(SelenideElement message) {
         message.shouldBe(visible, Duration.ofSeconds(12));
@@ -41,8 +37,6 @@ public class LoginPage {
 
     public String isErrorMessage() {
         String actualMessage = getMessage(errorMessage);
-        String expectedMessage = messErr;
-        assertEquals(expectedMessage, actualMessage);
         notSuccessMessage();
         return actualMessage;
     }
@@ -53,8 +47,6 @@ public class LoginPage {
 
     public String isSuccessMessage() {
         String actualMessage = getMessage(successMessage);
-        String expectedMessage = messOk;
-        assertEquals(expectedMessage, actualMessage);
         notErrorMessage();
         return actualMessage;
     }
@@ -81,11 +73,11 @@ public class LoginPage {
             paymentButton.click();
         }
         nextButton.shouldBe(visible);
-        cardField.setValue(clearCode + cardNum);
-        monthField.setValue(clearCode + month);
-        yearField.setValue(clearCode + year);
-        nameField.setValue(clearCode + name);
-        cvsField.setValue(clearCode + cvs);
+        cardField.setValue(CLEAR_CODE + cardNum);
+        monthField.setValue(CLEAR_CODE + month);
+        yearField.setValue(CLEAR_CODE + year);
+        nameField.setValue(CLEAR_CODE + name);
+        cvsField.setValue(CLEAR_CODE + cvs);
         nextButton.click();
     }
 

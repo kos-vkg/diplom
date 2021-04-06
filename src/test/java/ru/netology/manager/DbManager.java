@@ -18,7 +18,7 @@ public final class DbManager {
     //static final String URLDB = "jdbc:mysql://localhost:3306/app";
     static final String URLDB = "jdbc:postgresql://localhost:5432/app";
 
-     // возвращает запись из таблицы
+    // возвращает запись из таблицы
     public static Credit getCredit() {
         String usersSQL = "SELECT * FROM credit_request_entity;";
         var runner = new QueryRunner();
