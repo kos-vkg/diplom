@@ -14,15 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FunctionalTest {
 
-    static final String cardNum1 = "4444 4444 4444 4441";
-    static final String cardNum2 = "4444 4444 4444 4442";
-    static final String cardNum3 = "4444 4444 4444 4443";
+    static final String CARD_NUM_1 = "4444 4444 4444 4441";
+    static final String CARD_NUM_2 = "4444 4444 4444 4442";
+    static final String CARD_NUM_3 = "4444 4444 4444 4443";
     LoginPage loginPage = new LoginPage();
 
     @BeforeAll
-    static void  setUpAll(){
-        SelenideLogger.addListener("allure",new AllureSelenide());
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
     }
+
     @AfterAll
     static void tearDownAll() {
         SelenideLogger.removeListener("allure");
@@ -37,7 +38,7 @@ public class FunctionalTest {
 
     @Test
     void shouldErrorCardPayment() {
-        loginPage.inputData(false, cardNum3
+        loginPage.inputData(false, CARD_NUM_3
                 , "02", "22", "Вася", "456");
         loginPage.isErrorMessage();
         DbManager.checkRecordCount("order_entity", 0);
@@ -47,7 +48,7 @@ public class FunctionalTest {
 
     @Test
     void shouldErrorCardCredit() {
-        loginPage.inputData(true, cardNum3
+        loginPage.inputData(true, CARD_NUM_3
                 , "02", "22", "Вася", "456");
         loginPage.isErrorMessage();
         DbManager.checkRecordCount("order_entity", 0);
@@ -57,7 +58,7 @@ public class FunctionalTest {
 
     @Test
     void shouldHappyPathPayment() {
-        loginPage.inputData(false, cardNum1
+        loginPage.inputData(false, CARD_NUM_1
                 , "02", "22", "Вася", "456");
         loginPage.isSuccessMessage();
         DbManager.checkRecordCount("order_entity", 1);
@@ -70,7 +71,7 @@ public class FunctionalTest {
 
     @Test
     void shouldHappyPathCredit() {
-        loginPage.inputData(true, cardNum1
+        loginPage.inputData(true, CARD_NUM_1
                 , "02", "22", "Вася", "456");
         loginPage.isSuccessMessage();
         DbManager.checkRecordCount("order_entity", 1);
@@ -83,7 +84,7 @@ public class FunctionalTest {
 
     @Test
     void shouldDeclinedPayment() {
-        loginPage.inputData(false, cardNum2
+        loginPage.inputData(false, CARD_NUM_2
                 , "02", "22", "Вася", "456");
         loginPage.isErrorMessage();
         DbManager.checkRecordCount("order_entity", 0);
@@ -93,7 +94,7 @@ public class FunctionalTest {
 
     @Test
     void shouldDeclinedCredit() {
-        loginPage.inputData(true, cardNum2
+        loginPage.inputData(true, CARD_NUM_2
                 , "02", "22", "Вася", "456");
         loginPage.isErrorMessage();
         DbManager.checkRecordCount("order_entity", 0);

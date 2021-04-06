@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Order {
-   String id;
-   String created; // дата/время создания
-   String credit_id;
-   String payment_id;
+    String id;
+    String created; // дата/время создания
+    String credit_id;
+    String payment_id;
 }
