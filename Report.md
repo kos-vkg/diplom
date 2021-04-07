@@ -11,7 +11,8 @@
      Для каждой из двух CУБД реализованы 2 группы тест кейсов:
       общее функционирование системы - 6 тест кейсов
       контроль данных в полях ввода формы - 14 тест кейсов 
-      ![Screenshot_1](https://user-images.githubusercontent.com/73792290/113932424-416ac080-97fc-11eb-80f1-16aebc151717.png)    
+![Screenshot_1](https://user-images.githubusercontent.com/73792290/113932904-a1f9fd80-97fc-11eb-90c4-2b1b238c40a6.png)
+ 
 ###  % успешных тест-кейсов.
      Получено 55% успешных тестов
 ![Screenshot_2](https://user-images.githubusercontent.com/73792290/113932615-7d058a80-97fc-11eb-9ff4-0f8fd0ebaad4.png)
